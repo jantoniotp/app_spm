@@ -25,10 +25,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Material App',
+      title: 'San Pablo del Monte',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Material App Bar'),
+          title: const Text('San Pablo del Monte'),
         ),
         body: _pages[_pageCurrently],
         bottomNavigationBar: BottomNavigationBar(
