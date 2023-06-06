@@ -16,7 +16,7 @@ class _PageJobsState extends State<PageJobs> {
 
   Future<List<Job>> _getJobs() async {
     final response = await
-    http.get(Uri.parse("https://mx.mercadojobs.com/anuncios/getCpcAdsBySearch?start=0&limit=10&co=mx&search=programador"));
+    http.get(Uri.parse("https://mx.mercadojobs.com/anuncios/getCpcAdsBySearch?start=0&limit=10&co=mx&search=director"));
 
     List<Job> jobs = [];
 
@@ -47,28 +47,38 @@ class _PageJobsState extends State<PageJobs> {
      debugShowCheckedModeBanner: false,
      title: "Material App",
      home: Scaffold(
-       appBar: AppBar(
-         title: Text('Empleos de hoy'),
-       ),
-       body: FutureBuilder(
-         future: _listingJobs,
-         builder: (context, snapshot) {
-           if (snapshot.hasData) {
-             return GridView.count(
-               crossAxisCount: 1,
-               children: _listJobs(snapshot.data),
+       body: Column(
+        children: [
+          Container(
+            height: 30,
+            color: Colors.blue,
+         child: Text("Empleos de hoy")
+          ),
+          Container(
+            height: 650,
+            color: Colors.red,
+         child: FutureBuilder(
+           future: _listingJobs,
+           builder: (context, snapshot) {
+             if (snapshot.hasData) {
+               return GridView.count(
+                 crossAxisCount: 1,
+                 children: _listJobs(snapshot.data),
+               );
+             } else if (snapshot.hasError) {
+               print(snapshot.error);
+               return Text('Error');
+             }
+
+
+             return Center(
+               child: CircularProgressIndicator(),
              );
-           } else if (snapshot.hasError) {
-             print(snapshot.error);
-             return Text('Error');
-           }
-
-
-           return Center(
-             child: CircularProgressIndicator(),
-           );
-         },
-         ),
+           },
+           ),
+          )
+        ]
+       ),
        ),
      );
    }
@@ -79,7 +89,9 @@ List<Widget> _listJobs(data) {
 
   for (var job in data) {
     jobs.add(
-      Card(child: Column(
+      Card(
+        margin: const EdgeInsets.only(bottom: 300),
+        child: Column(
         children: [
           ListTile(
             title: Text(job.title),
